@@ -10,7 +10,7 @@ New applications are created by inheriting from an RLApplication class and imple
 See [rl_bakery/example/cartpole.py](rl_bakery/example/cartpole.py) for an example with the OpenAI cartpole environment. While that example uses an [OpenAI Gym](https://gym.openai.com/) environment, typical applications for RL Bakery will get state from a warehouse.
 
 ## Authors
-Patrick Halina, 
+Patrick Halina, Mehdi Ben Ayed,
 
 ## Implementation Overview
 RL Bakery utilizes [Apache Spark]( https://spark.apache.org/) to gather and transform data into trajectories of (State, Action, Reward, Next State). RL Bakery does not implement any RL Algorithms like PPO, TD3, DQN, A3C etc. Instead, we wrap the [TF-Agents]( https://github.com/tensorflow/agents) library.
