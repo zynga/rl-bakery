@@ -1,29 +1,25 @@
+""" Cartpole-V0 with a ddqn agent """
 from datetime import datetime, timedelta
 
-from rl_bakery.applications.tfenv.tf_env_engine_conf import TFEnvEngineConfig
-from rl_bakery.applications.tfenv.tf_env_rl_application import TFEnvRLApplication
-from rl_bakery.applications.tfenv.indexed_tf_env import IndexedTFEnv
-from rl_bakery.data_manager.data_manager import DATANAME
-from rl_bakery.engine.base_engine import BaseEngine
-from rl_bakery.example.cartpole import ExampleCartPole
-from rl_bakery.operation.base_operation import start_tensorboard_writer, close_tensorboard_writer
-
+import logging
+import time
+import tensorflow as tf
 from tf_agents.agents.dqn import dqn_agent
-from tf_agents.environments import suite_gym, tf_py_environment
 from tf_agents.networks import q_network
 from tf_agents.trajectories import time_step as ts
 from tf_agents.utils import common
 
-import logging
-import tensorflow as tf
-import time
+from rl_bakery.applications.tfenv.tf_env_engine_conf import TFEnvEngineConfig
+from rl_bakery.applications.tfenv.tf_env_rl_application import TFEnvRLApplication
+from rl_bakery.applications.tfenv.indexed_tf_env import IndexedTFEnv
+from rl_bakery.example.cartpole import ExampleCartPole
 
 logger = logging.getLogger(__name__)
 
 
 class ExampleCartPoleDDQN(ExampleCartPole):
-
-   def __init__(self,
+    """ Cartpole DDQN Class """
+    def __init__(self,
                  # Params Q network
                  fc_layer_params=(100,),
                  # Params for training
