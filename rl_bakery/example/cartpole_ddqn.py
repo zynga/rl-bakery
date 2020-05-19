@@ -115,5 +115,5 @@ class ExampleCartPoleDDQN(ExampleCartPole):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    example_pipeline = ExampleCartPole()
+    example_pipeline = ExampleCartPoleDDQN()
     example_pipeline.run()
