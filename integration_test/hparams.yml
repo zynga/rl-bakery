@@ -1,0 +1,17 @@
+dqn:
+  learning_rate: 0.001
+  mini_batch_size: 64
+  num_iterations: 10000
+  envs_num: 10
+  runs_num: 10
+  steps_num_per_run: 1000
+  tb_path: "/tmp/rl_application/dqn_cartpole_integration_test"
+
+ddqn:
+  learning_rate: 0.01
+  mini_batch_size: 64
+  num_iterations: 8000
+  envs_num: 80
+  runs_num: 10
+  steps_num_per_run: 550
+  tb_path: "/tmp/rl_application/ddqn_cartpole_integration_test"
