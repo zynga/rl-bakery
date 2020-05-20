@@ -8,7 +8,7 @@ class DQNTest(TestCase):
     """ DDQN Test Class """
     def test_dqn_cart_pole(self):
         """ Test Average Rewards of Cartpole using the DQN agent (average over last 3 runs) """
-        with open('integration_test/dqn/hparams.yml', 'rb') as config:
+        with open('integration_test/hparams.yml', 'rb') as config:
             dqn_conf = yaml.load(config.read())['dqn']    # load the config file
         cartpole = ExampleCartPole(**dqn_conf)
         avg_rwd = cartpole.run()
