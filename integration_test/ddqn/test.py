@@ -1,10 +1,11 @@
 """ Test DDQN Algorithm """
-from unittest import TestCase
+import sys
 import yaml
+sys.path.append('../rl-bakery/')
 from rl_bakery.example.cartpole_ddqn import ExampleCartPoleDDQN
 
 
-class DDQNTest(TestCase):
+class DDQNTest():
     """ DDQN Test Class """
     def test_ddqn_cart_pole(self):
         """ Test Average Rewards of Cartpole using the DDQN agent (average over last 3 runs) """
@@ -14,4 +15,9 @@ class DDQNTest(TestCase):
         avg_rwd = cartpole.run()
         # evaluate over the last 3 runs
         eval_runs = 3
-        self.assertGreater(sum(avg_rwd[-eval_runs:])/eval_runs, 185)
+        assert(sum(avg_rwd[-eval_runs:])/eval_runs >= 185)
+
+
+if __name__ == '__main__':
+    print("Running Test for: %s" % __file__)
+    DDQNTest().test_ddqn_cart_pole()
