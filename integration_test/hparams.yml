@@ -12,6 +12,6 @@ ddqn:
   mini_batch_size: 64
   num_iterations: 8000
   envs_num: 80
-  runs_num: 12
+  runs_num: 10
   steps_num_per_run: 550
   tb_path: "/tmp/rl_application/ddqn_cartpole_integration_test"
