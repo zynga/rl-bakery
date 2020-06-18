@@ -119,7 +119,8 @@ class TrainAgentOperation(BaseOperation):
             replay_buffer.pre_process(i)
 
             traj, traj_meta = replay_buffer.get_batch(mini_batch_size)
-            loss_info = agent.train(experience=traj, weights=traj_meta.probabilities)
+            weights = traj_meta.probabilities if traj_meta else None
+            loss_info = agent.train(experience=traj, weights=weights)
 
             replay_buffer.post_process(traj_meta, loss_info, i)
 
