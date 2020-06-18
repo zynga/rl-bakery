@@ -12,6 +12,15 @@ ddqn:
   mini_batch_size: 64
   num_iterations: 8000
   envs_num: 80
-  runs_num: 10
+  runs_num: 12
   steps_num_per_run: 550
   tb_path: "/tmp/rl_application/ddqn_cartpole_integration_test"
+
+ddpg:
+  learning_rate: 0.001
+  mini_batch_size: 64
+  num_iterations: 2000
+  envs_num: 60
+  runs_num: 12
+  steps_num_per_run: 800
+  tb_path: "/tmp/rl_application/ddpg_mountaincar_integration_test"
