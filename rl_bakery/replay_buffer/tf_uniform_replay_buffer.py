@@ -38,5 +38,5 @@ class TFUniformReplayBuffer(TFReplayBufferAbstract):
             batch_size = self._batch_size
 
         # TODO: convert the replay buffer to a dataset and iterate over it
-        traj, metadata = self._replay_buffer.get_next(sample_batch_size=batch_size)
-        return traj, metadata
+        traj, _ = self._replay_buffer.get_next(sample_batch_size=batch_size)
+        return traj, None
