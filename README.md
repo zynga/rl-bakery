@@ -1,16 +1,42 @@
-# RL Bakery (alpha)
-Note: The interfaces and general use cases are stable for this library, but we're currently working on better documentation and examples.
+# RL Bakery
 
 ## Overview
-This library makes it easy to build production batch Deep Reinforcement Learning and Contextual Bandits applications. We use this at [Zynga](http://www.zynga.com) to personalize our games, eg. picking the best time of day to send messages, selecting daily challenges and personalizing the next level for games. The Deep RL applications created by this library are run in production for millions of users per day.
-
-## Usage
-New applications are created by inheriting from an RLApplication class and implementing a few functions. For example, specifying the Agent algorithm to use and how to get data for a specific time period. RL Bakery can then execute the application to construct (State, Action, Reward, Next State) trajectories to train an RL Agent. A trained Agent is basically a deep learning model, which can  be served in real time or used to generate batch values for a population of environments.
-
-See [rl_bakery/example/cartpole.py](rl_bakery/example/cartpole.py) for an example with the OpenAI cartpole environment. While that example uses an [OpenAI Gym](https://gym.openai.com/) environment, typical applications for RL Bakery will get state from a warehouse.
+This library makes it easy to build production batch Deep Reinforcement Learning and Contextual Bandits applications. We use this at [Zynga](http://www.zynga.com) to personalize our games, eg. picking the best time of day to send messages, selecting daily challenges and personalizing the next level for games. This [talk](https://www.youtube.com/watch?v=q4b-HHG5dG4) explains our usages at Zynga and the challenges with production RL. The Deep RL applications created by this library are run in production for millions of users per day.
 
 ## Authors
 Patrick Halina, Mehdi Ben Ayed, Peng Zhong, Curren Pangler
+
+## FAQ
+
+### How is RL-Bakery related to other libraries?
+RL-Bakery is built on top of [TF-Agents](https://github.com/tensorflow/agents/tree/master/tf_agents) as an implementation of the RL Algorithms. There's a lot of other open source libraries that implement RL Algorithms, like [Keras RL](https://github.com/keras-rl/keras-rl), [Dopamine](https://github.com/google/dopamine) or [SEED](https://github.com/google-research/seed_rl). In the future, RL-Bakery could make it easier to support other implementations.
+
+We use [OpenAI Gym](https://gym.openai.com/) to test the library with canonical simulated environments, like [Cartpole](rl_bakery/example/cartpole.py). This isn't used for our production applications.
+
+The library is somewhat at the same level as [ReAgent](https://github.com/facebookresearch/ReAgent) and [Ray RLlib](https://docs.ray.io/en/latest/rllib.html). The difference is that RL-Bakery does not implement RL algos like PPO or DQN. RL-Bakery simply manages the data over time and at scale, then presents the historic data to other libraries that have implementations (we currently only support TF-Agents.)
+
+### What other technologies does this library require?
+RL-Bakery uses Spark to manage and transform data, so a Spark cluster (2.4+) is required. We also use Tensorflow 2.0.
+
+Note that we develop and test on our laptops using "local" PySpark clusters provided by the PySpark libraries. You should be able to get this library running locally without much more effort than a Pip install. However, a real Spark cluster is required to run this at scale.
+
+### What applications should use this library?
+This library helps create RL applications that do batch training on a regular basis over time. Suppose you want to personalize a website with an RL Agent, to choose optimized values for each user based on their unique context. The Agent can be updated once per day using the batch of offline data collected over the previous 24 hours. RL-Bakery was created for these types of applications, it makes it easier to manage the data over multiple days and combine it into a trajectory format required to update RL Agents.
+
+### What applications shouldn't necessarily use this library?
+These applications don't currently benefit from the library:
+ * Researching/developing new RL algorithms on simulated environments (our library simply utilizes existing off the shelf libraries for executing RL algorithms like DQN).
+ * If your data is very small, the overhead of using Spark may not be worth it.
+ * If you're only applying this to simulated environments for training as opposed to some real world environment, lower level algorithm libraries work well for this.
+
+### How are RL Agents "deployed"
+A trained RL Agent is simply a trained Tensorflow model. It can be deployed to a live model service (eg. [https://aws.amazon.com/sagemaker/](https://aws.amazon.com/sagemaker/) or [Seldon-Core](https://github.com/SeldonIO/seldon-core). You can also use the trained model to generate a batch of Actions for a population.
+
+## Usage
+New applications are created by inheriting from the RLApplication class and implementing a few functions. For example, specifying the Agent algorithm to use and how to get data for a specific time period. RL Bakery can then execute the application to construct (State, Action, Reward, Next State) trajectories to train an RL Agent. A trained Agent is basically a deep learning model, which can  be served in real time or used to generate batch values for a population of environments.
+
+See [rl_bakery/example/cartpole.py](rl_bakery/example/cartpole.py) for an example with the OpenAI cartpole environment. While that example uses an [OpenAI Gym](https://gym.openai.com/) environment, typical applications for RL Bakery will get state from a warehouse.
+
 
 ## Implementation Overview
 RL Bakery utilizes [Apache Spark]( https://spark.apache.org/) to gather and transform data into trajectories of (State, Action, Reward, Next State). RL Bakery does not implement any RL Algorithms like PPO, TD3, DQN, A3C etc. Instead, we wrap the [TF-Agents]( https://github.com/tensorflow/agents) library.
