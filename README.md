@@ -1,7 +1,7 @@
 # RL Bakery
 
 ## Overview
-This library makes it easy to build production batch Deep Reinforcement Learning and Contextual Bandits applications. We use this at [Zynga](http://www.zynga.com) to personalize our games, eg. picking the best time of day to send messages, selecting daily challenges and personalizing the next level for games. This [talk](https://www.youtube.com/watch?v=q4b-HHG5dG4) explains our usages at Zynga and the challenges with production RL. The Deep RL applications created by this library are run in production for millions of users per day.
+This library makes it easy to build production batch Deep Reinforcement Learning and Contextual Bandits applications that train with offline data. What does that mean? At [Zynga](http://www.zynga.com), we use this to personalize our games, one example is picking the best time of day to send messages, based on each user's context. This application "deploys" the Agent once per day, generating a batch of message time Actions for the user base. The historic trajectories of user state, action and rewards are then gathered (offline) on a daily basis to train the Agent for the next update.  RL Bakery simplifies gathering offline RL data and formatting it at scale for lower level RL algorithm libraries. This [talk](https://www.youtube.com/watch?v=q4b-HHG5dG4) explains our usages at Zynga and the challenges with production RL. The Deep RL applications created by this library are run in production for millions of users per day.
 
 ## Authors
 Patrick Halina, Mehdi Ben Ayed, Peng Zhong, Curren Pangler
@@ -13,7 +13,7 @@ RL-Bakery is built on top of [TF-Agents](https://github.com/tensorflow/agents/tr
 
 We use [OpenAI Gym](https://gym.openai.com/) to test the library with canonical simulated environments, like [Cartpole](rl_bakery/example/cartpole.py). This isn't used for our production applications.
 
-The library is somewhat at the same level as [ReAgent](https://github.com/facebookresearch/ReAgent) and [Ray RLlib](https://docs.ray.io/en/latest/rllib.html). The difference is that RL-Bakery does not implement RL algos like PPO or DQN. RL-Bakery simply manages the data over time and at scale, then presents the historic data to other libraries that have implementations (we currently only support TF-Agents.)
+The library is somewhat at the same level as [ReAgent](https://github.com/facebookresearch/ReAgent) and [Ray RLlib](https://docs.ray.io/en/latest/rllib.html). The difference is that RL-Bakery does not implement RL algos like PPO or DQN itself, we use off the shelf implementations from open source libraries. RL-Bakery simply manages the data over time and at scale, then presents the historic data to other libraries that have implementations (we currently only support TF-Agents.) RL-Bakery is also pretty seamless to run on any existing Spark cluster.
 
 ### What other technologies does this library require?
 RL-Bakery uses Spark to manage and transform data, so a Spark cluster (2.4+) is required. We also use Tensorflow 2.0.
@@ -21,7 +21,7 @@ RL-Bakery uses Spark to manage and transform data, so a Spark cluster (2.4+) is 
 Note that we develop and test on our laptops using "local" PySpark clusters provided by the PySpark libraries. You should be able to get this library running locally without much more effort than a Pip install. However, a real Spark cluster is required to run this at scale.
 
 ### What applications should use this library?
-This library helps create RL applications that do batch training on a regular basis over time. Suppose you want to personalize a website with an RL Agent, to choose optimized values for each user based on their unique context. The Agent can be updated once per day using the batch of offline data collected over the previous 24 hours. RL-Bakery was created for these types of applications, it makes it easier to manage the data over multiple days and combine it into a trajectory format required to update RL Agents.
+This library helps create RL applications that do batch training on a regular basis over time. Suppose you want to personalize a website with an RL Agent; the Agent chooses optimized values for each user based on their unique context. The Agent can be updated once per day using the batch of offline data collected over the previous 24 hours. RL-Bakery was created for these types of applications, it makes it easier to manage the data over multiple days and combine it into a trajectory format required to update RL Agents.
 
 ### What applications shouldn't necessarily use this library?
 These applications don't currently benefit from the library:
