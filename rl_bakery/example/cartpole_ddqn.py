@@ -19,21 +19,22 @@ logger = logging.getLogger(__name__)
 
 class ExampleCartPoleDDQN(ExampleCartPole):
     """ Cartpole DDQN Class """
+
     def __init__(self,
                  # Params Q network
                  fc_layer_params=(100,),
                  # Params for training
-                 learning_rate=0.001,
+                 learning_rate=0.01,
                  agent_discount=0.99,
-                 mini_batch_size=128,
-                 num_iterations=5000,
+                 mini_batch_size=64,
+                 num_iterations=10000,
                  gradient_clipping=None,
                  trajectory_training_window=100,
                  log_interval=200,
                  # Param for simulated environments
                  envs_num=10,
                  runs_num=10,
-                 steps_num_per_run=100,
+                 steps_num_per_run=1000,
                  # Params for evaluation
                  eval_interval=1,
                  num_eval_episodes=100,
