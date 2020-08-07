@@ -1,0 +1,40 @@
+training:
+    runs_num: 10
+    eval_interval: 1
+    num_eval_episodes: 100
+    steps_num_per_run: 1000
+    config:
+        num_iterations: 10000
+        agent_discount: 0.99
+        mini_batch_size: 64
+        eps_start: 1.0
+        eps_final: 0.1
+        eps_steps: 10000
+        initial_collect_steps: 3000
+        log_interval: 200
+enviroment:
+    envs_num: 10
+    env_name: "CartPole-v0"
+application:
+    name: "Yaml-CartPole-DQN"
+optimizer:
+    type: "Adam"
+    kwargs:
+        learning_rate: 0.01
+agent:
+    type: "dqn"
+    q_net:
+        kwargs:
+            fc_layer_params:
+                - 100
+    kwargs:
+        epsilon_greedy: 0.1
+engine:
+    trainning_interval_days: 1
+    start_date:
+        year: 2019
+        month: 8
+        day: 7
+        hour: 10
+    trajectory_training_window: 100
+    tb_path: "/tmp/rl_application/dqn_cartpole_integration_test" 

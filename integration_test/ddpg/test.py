@@ -2,16 +2,14 @@
 import sys
 import yaml
 sys.path.append('../rl-bakery/')
-from rl_bakery.example.mountaincar_ddpg import ExampleMountainCarDDPG
+from rl_bakery.example.yaml_parser import SimulatedEnviroment
 
 
 class DDPGTest():
     """ DDPG Test Class """
     def test_ddpg_mountain_car(self):
         """ Test Average Rewards of MountainCarContinuous using the DDPG agent (average over last 3 runs) """
-        with open('integration_test/hparams.yml', 'rb') as config:
-            ddpg_conf = yaml.load(config.read())['ddpg']    # load the config file
-        mountaincar = ExampleMountainCarDDPG(**ddpg_conf)
+        mountaincar = SimulatedEnviroment("mountaincar_ddpg.yml")
         avg_rwd = mountaincar.run()
         # evaluate over the last 3 runs
         eval_runs = 3

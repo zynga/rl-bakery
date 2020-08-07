@@ -1,0 +1,51 @@
+training:
+    runs_num: 12
+    eval_interval: 1
+    num_eval_episodes: 100
+    steps_num_per_run: 800
+    config:
+        num_iterations: 2000
+        mini_batch_size: 64
+        eps_start: 1.0
+        eps_final: 0.1
+        eps_steps: 1000
+        initial_collect_steps: 1000
+        log_interval: 100
+enviroment:
+    envs_num: 60
+    env_name: "MountainCarContinuous-v0"
+application:
+    name: "Yaml-MountainCar-DDPG"
+optimizer:
+    type: "Adam"
+    kwargs:
+        learning_rate: 0.001
+agent:
+    type: "ddpg"
+    actor_net:
+        kwargs:
+            fc_layer_params:
+                - 400
+                - 300
+    critic_network:
+        kwargs:
+            observation_fc_layer_params:
+                - 400
+            joint_fc_layer_params:
+                - 300
+    kwargs:
+        ou_stddev: 0.2
+        ou_damping: 0.15
+        target_update_tau: 0.05
+        target_update_period: 5
+        gamma: 0.99
+        reward_scale_factor: 1.0
+engine:
+    trainning_interval_days: 1
+    start_date:
+        year: 2019
+        month: 8
+        day: 7
+        hour: 10
+    trajectory_training_window: 1
+    tb_path: "/tmp/rl_application/ddpg_mountaincar_integration_test"

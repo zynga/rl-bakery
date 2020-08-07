@@ -2,16 +2,14 @@
 import sys
 import yaml
 sys.path.append('../rl-bakery/')
-from rl_bakery.example.cartpole import ExampleCartPole
+from rl_bakery.example.yaml_parser import SimulatedEnviroment
 
 
 class DQNTest():
     """ DDQN Test Class """
     def test_dqn_cart_pole(self):
         """ Test Average Rewards of Cartpole using the DQN agent (average over last 3 runs) """
-        with open('integration_test/hparams.yml', 'rb') as config:
-            dqn_conf = yaml.load(config.read())['dqn']    # load the config file
-        cartpole = ExampleCartPole(**dqn_conf)
+        cartpole = SimulatedEnviroment("cartpole_dqn.yml")
         avg_rwd = cartpole.run()
         # evaluate over the last 3 runs
         eval_runs = 3

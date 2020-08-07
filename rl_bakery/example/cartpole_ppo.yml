@@ -1,0 +1,33 @@
+training:
+    runs_num: 10
+    eval_interval: 1
+    num_eval_episodes: 100
+    steps_num_per_run: 100
+    config:
+        num_iterations: 1
+        agent_discount: 0.99
+        initial_collect_steps: 1000
+        log_interval: 200
+enviroment:
+    envs_num: 10
+    env_name: "CartPole-v0"
+application:
+    name: "Yaml-CartPole-PPO"
+optimizer:
+    type: "Adam"
+    kwargs:
+        learning_rate: 0.001
+agent:
+    type: "ppo"
+    kwargs:
+        num_epochs: 25
+engine:
+    trainning_interval_days: 1
+    start_date:
+        year: 2019
+        month: 8
+        day: 7
+        hour: 10
+    trajectory_training_window: 1
+    tb_path: ""   
+
