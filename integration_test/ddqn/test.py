@@ -1,7 +1,6 @@
 """ Test DDQN Algorithm """
 import sys
 import yaml
-sys.path.append('../rl-bakery/')
 from rl_bakery.example.yaml_parser import SimulatedEnviroment
 
 

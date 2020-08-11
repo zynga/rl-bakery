@@ -22,7 +22,7 @@ agent:
     kwargs:
         num_epochs: 25
 engine:
-    trainning_interval_days: 1
+    training_interval_days: 1
     start_date:
         year: 2019
         month: 8

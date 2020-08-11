@@ -41,7 +41,7 @@ agent:
         gamma: 0.99
         reward_scale_factor: 1.0
 engine:
-    trainning_interval_days: 1
+    training_interval_days: 1
     start_date:
         year: 2019
         month: 8

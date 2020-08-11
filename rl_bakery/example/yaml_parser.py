@@ -51,7 +51,7 @@ class SimulatedEnviroment(object):
         version = "%s" % str(time.time())
 
         # setup training engine
-        training_interval = timedelta(days=self._env_params['engine']['trainning_interval_days'])
+        training_interval = timedelta(days=self._env_params['engine']['training_interval_days'])
         start_params = self._env_params['engine']['start_date']
         start_dt = datetime(year=start_params['year'], month=start_params['month'], day=start_params['day'], hour=start_params['hour'])
         trajectory_training_window = self._env_params['engine']['trajectory_training_window']
