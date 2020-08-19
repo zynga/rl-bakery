@@ -29,7 +29,6 @@ class RunManager(object):
         self._experiment_list.add(exp_id)
         return exp_id
     
-    @staticmethod
     def _eval_fn(self, params):
         """
             :params: a dict containing chosen hyperparameters (by hyperopt) to be used for a single run
@@ -51,7 +50,7 @@ class RunManager(object):
         spark_trials = SparkTrials(parallelism=parallelism)
         
         with mlflow.start_run(experiment_id=experiment_id):
-            return fmin(fn=partial(self._eval_fn, self),
+            return fmin(fn=self._eval_fn,
                         space=self._hyper_conf,
                         return_argmin=True,
                         trials=spark_trials,

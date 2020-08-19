@@ -12,9 +12,8 @@ class BasicRunner(RunManager):
             ])
         }
         super(BasicRunner, self).__init__(None, None, {}, space)
-    
-    @staticmethod
-    def _eval_fn(run_manager, params):
+
+    def _eval_fn(self, params):
         case, val = params['a']
         if case == 'case 1':
             return val
