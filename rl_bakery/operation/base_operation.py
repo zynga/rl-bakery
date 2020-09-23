@@ -18,17 +18,15 @@ class BaseOperation(object):
     implementations to focus on data processing.
     """
 
-    def __init__(self, rl_app, engine_config, dm):
+    def __init__(self, application, dm):
         """
         init a pipeline operation.
 
         Params:
-            rl_app: an instance of RLApplication
-            engine_config: an instance of EngineConfig
+            application: an instance of AgentApplication
             dm: a data manager
         """
-        self._rl_app = rl_app
-        self._engine_config = engine_config
+        self._application = application
         self.__dm = dm
 
     @classmethod
@@ -46,17 +44,20 @@ class BaseOperation(object):
         return self.__dm
 
     @classmethod
-    def data_dependencies(cls, engine_config):
+    def data_dependencies(cls, timing_data):
         """A dictionary of variable names to data dependencies, triplets of (DATANAME, offset).
         'offset' is relative to the given timestep to run the operation."""
         return {}
 
     @classmethod
-    def optional_data_dependencies(cls, engine_config):
+    def optional_data_dependencies(cls, timing_data):
         """A dictionary of variable names to optional data dependencies that are loaded if possible. Data is
         represented as triplets of (DATANAME, offset). 'offset' is relative to the given timestep to run the
         operation. """
         return {}
+
+    def _get_tb_path(self):
+        return self._application.config.project.tensorboard_path
 
     def run(self, run_id):
         """
@@ -68,10 +69,10 @@ class BaseOperation(object):
         """
 
         tb_counter = self._get_tensorboard_counter(run_id)
-        tb_writer = start_tensorboard_writer(self._engine_config.tensorboard_path, tb_counter)
+        tb_writer = start_tensorboard_writer(self._get_tb_path(), tb_counter)
         logger.info("Building %s and run_id: %s" % (self.output_dataname(), str(run_id)))
 
-        required_data_dependencies = self.data_dependencies(self._engine_config)
+        required_data_dependencies = self.data_dependencies(self._application.timing_data)
         logger.info("Required dependencies: %s" % str(required_data_dependencies))
         data, exception_list = self._get_data_dependencies(required_data_dependencies, run_id)
         for e in exception_list:
@@ -81,7 +82,7 @@ class BaseOperation(object):
             raise Exception("Critical Error: Failed to load %s data dependencies. more details above." %
                             str(len(exception_list)))
 
-        optional_data_dependencies = self.optional_data_dependencies(self._engine_config)
+        optional_data_dependencies = self.optional_data_dependencies(self._application.timing_data)
         optional_data, exception_list = self._get_data_dependencies(optional_data_dependencies, run_id)
         if exception_list:
             for e in exception_list:
@@ -89,7 +90,7 @@ class BaseOperation(object):
             logger.warning("Warning: Failed to load %s data dependencies. more details above." %
                            str(len(exception_list)))
         with tb_writer.as_default():
-            output = self._run(run_id, self._rl_app, self._engine_config, **data, **optional_data)
+            output = self._run(run_id, **data, **optional_data)
 
         # TODO: The check should be based on the output_dataname. If it is not set, skip storing the output
         if output:
@@ -105,14 +106,12 @@ class BaseOperation(object):
         return run_id
 
     @abc.abstractmethod
-    def _run(self, run_id, rl_app, engine_config, **input_data):
+    def _run(self, run_id, **input_data):
         """
         This function must contain the implementation of the logic specific to the concrete operator
 
         Params:
             run_id: the run id
-            rl_app: the RL application config
-            engine_config: the RL engine config
             **input_data: any other dependency loaded from the data manager and specific to the concrete operator
         """
 

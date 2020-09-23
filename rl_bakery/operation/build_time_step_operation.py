@@ -31,25 +31,21 @@ class BuildTimestepOperation(BaseOperation):
     def output_dataname(cls):
         return DATANAME.TIMESTEP
 
-    def _run(self, run_id, rl_app, engine_config):
+    def _run(self, run_id):
         """
         Build new timesteps by calling the RL application delegate. Validate it before storing it.
 
-        Params:
-            run_id: the id of the training run
-            run_dt: the datetime of the training run
-            metadata: metadata information for this run
-
-        Returns:
-            A Spark dataframe containing timesteps
+        :param run_id: The run_id to build timesteps for
+        :return: A Spark dataframe containing timesteps for the given run_id
         """
 
         # compute time window
-        start_dt, end_dt = self._compute_time_window(engine_config.start_dt, engine_config.training_interval, run_id)
+        start_dt, end_dt = self._compute_time_window(self._application.timing_data.start_dt,
+                                                     self._application.timing_data.training_interval, run_id)
 
         # call rl app to build timesteps
         logger.info("build_time_step_operation run_id={} start_dt={} end_dt={}".format(run_id, start_dt, end_dt))
-        timestep_df = rl_app.build_time_steps(start_dt, end_dt)
+        timestep_df = self._application.env.build_time_steps(start_dt, end_dt)
 
         self._validate_timestep(timestep_df)
 
@@ -72,9 +68,12 @@ class BuildTimestepOperation(BaseOperation):
         """
         Make sure that all required columns are present
         """
-        rl_app = self._rl_app
+        env_id_cols = self._application.env.env_id_cols
+        ts_id_col = self._application.env.ts_id_col
+        obs_cols = self._application.env.obs_cols
+
         # df contains required columns
-        required_cols = self.REQUIRED_COLUMNS + rl_app.env_id_cols + [rl_app.ts_id_col] + rl_app.obs_cols
+        required_cols = self.REQUIRED_COLUMNS + env_id_cols + [ts_id_col] + obs_cols
         for col in required_cols:
             if col not in timestep_df.columns:
                 raise Exception("Missing column from timestep_df: %s. Got: %s" %

@@ -16,14 +16,12 @@ class BaseEngine(object):
 
     # TODO: have the engine composed of an operation planner and runner instead of initializing a new one every time
     # This requires a change in the planner
-    def __init__(self, rl_app, engine_config):
-        self._rl_app = rl_app
-        self._engine_config = engine_config
-
-        self._dm = engine_config.build_data_manager(rl_app)
+    def __init__(self, application, dm):
+        self._application = application
+        self._dm = dm
 
         available_operators_map = self._get_available_operators()
-        self._operation_factory = OperationFactory(available_operators_map, rl_app, engine_config, self._dm)
+        self._operation_factory = OperationFactory(available_operators_map, application, dm)
 
     @classmethod
     def _get_available_operators(cls):
@@ -39,7 +37,7 @@ class BaseEngine(object):
         """
         if not force_run:
             # make sure that the engine run is less than 1
-            run_id = self._engine_config.get_current_run_id()
+            run_id = self._application.timing_data.get_current_run_id()
             if run_id >= 1 and not force_run:
                 raise Exception("Can't initialize engine since current run_id {%s} > 0" % str(run_id))
 
@@ -61,7 +59,7 @@ class BaseEngine(object):
         """
         # compute the current run id if not provided
         if run_id is None:
-            run_id = self._engine_config.get_current_run_id()
+            run_id = self._application.timing_data.get_current_run_id()
 
         if not force_run:
             # check if the model was already trained
@@ -100,7 +98,7 @@ class BaseEngine(object):
 
         # init agent
         logger.info("initializing agent")
-        agent = self._rl_app.init_agent()
+        agent = self._application.agent_trainer.init_agent()
 
         run_id = 0
         self._dm.store(agent, DATANAME.MODEL, run_id)
@@ -116,7 +114,7 @@ class BaseEngine(object):
         # TODO: remove coupling between dependency planner and operator.
         available_operators = self._get_available_operators()
 
-        planner = DependencyPlanner(available_operators, self._engine_config, available_data)
+        planner = DependencyPlanner(available_operators, self._application.timing_data, available_data)
         plan = planner.plan(data_name, run_id)
 
         # TODO: This is debugging code. Only log it if required
