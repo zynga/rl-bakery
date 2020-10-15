@@ -5,8 +5,7 @@ from rl_bakery.replay_buffer.tf_uniform_replay_buffer import TFUniformReplayBuff
 import math
 from typing import Optional
 from dataclasses import dataclass
-from rl_bakery.agent_trainer.config import AgentConfig
-from rl_bakery.agent_trainer.agents import AgentTrainer
+from rl_bakery.agent_trainer.abstract import AgentConfig, AgentTrainer
 
 from datetime import timedelta, datetime
 
@@ -105,6 +104,8 @@ class AgentApplication:
 def make_config(agent_config, dotlist):
     """
     This creates a configuration for an AgentApplication. It adds a given dotlist of arguments to an ApplicationConfig.
+    # TODO currently this doesn't check for any missing mandatory values, so missing values are only caught when they're
+      accessed. I can't find a way to do this in OmegaConf.
 
     :param agent_config: an AgentConfig for the application's Agent
     :param dotlist: A list of parameter values, eg. ["training.learning_rate=0.01", "training.num_iterations=10000"]
@@ -121,5 +122,6 @@ def make_config(agent_config, dotlist):
     conf = OmegaConf.structured(conf_schema)
 
     conf.merge_with_dotlist(dotlist)
+    OmegaConf.select(conf, "agent")
     return conf
 

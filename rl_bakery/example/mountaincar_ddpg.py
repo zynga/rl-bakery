@@ -2,8 +2,7 @@
 
 from rl_bakery.applications import agent_application
 from rl_bakery.applications.simulation_runner import SimulationRunner, make_batch_tfenv
-from rl_bakery.agent_trainer.config import DDPGConfig
-from rl_bakery.agent_trainer.agents import DDPGAgent
+from rl_bakery.agent_trainer.ddpg import DDPGAgent, DDPGConfig
 from rl_bakery.data_manager.builder import build_inmemory_data_manager
 from rl_bakery.spark_utilities import get_spark_session
 

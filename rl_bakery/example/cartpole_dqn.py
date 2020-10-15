@@ -1,7 +1,6 @@
 from rl_bakery.applications import agent_application
 from rl_bakery.applications.simulation_runner import SimulationRunner, make_batch_tfenv
-from rl_bakery.agent_trainer.config import QConfig
-from rl_bakery.agent_trainer.agents import DQNAgent
+from rl_bakery.agent_trainer.dqn import DQNAgent, QConfig
 from rl_bakery.data_manager.builder import build_inmemory_data_manager
 from rl_bakery.spark_utilities import get_spark_session
 
