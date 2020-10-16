@@ -1,4 +1,4 @@
-from rl_bakery.agent_trainer.abstract import QAgent, AgentConfig, OptimizerConfig
+from rl_bakery.agents.abstract import QAgent, AgentConfig, OptimizerConfig
 from tf_agents.agents.dqn.dqn_agent import DqnAgent, DdqnAgent
 from tf_agents.trajectories import time_step as ts
 import logging

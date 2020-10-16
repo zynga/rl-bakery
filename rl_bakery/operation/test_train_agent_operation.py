@@ -3,8 +3,7 @@ from rl_bakery.operation.train_agent_operation import TrainAgentOperation
 from rl_bakery.replay_buffer.replay_buffer_abstract import ReplayBufferAbstract
 from rl_bakery.spark_utilities import PySparkTestCase
 from rl_bakery.applications import agent_application
-from rl_bakery.agent_trainer.config import QConfig
-from rl_bakery.agent_trainer.agents import DQNAgent
+from rl_bakery.agents.dqn import QConfig, DQNAgent
 
 import datetime
 from unittest import TestCase
@@ -55,7 +54,7 @@ class TestTrainActionOperation(PySparkTestCase, TestCase):
 
         app = agent_application.AgentApplication(
             data_spec=dataspec,
-            agent_trainer=DQNAgent,
+            agent=DQNAgent,
             config=conf,
             env=Env(),
             first_timestep_dt=datetime.datetime.now(),

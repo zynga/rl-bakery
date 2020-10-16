@@ -98,7 +98,7 @@ class BaseEngine(object):
 
         # init agent
         logger.info("initializing agent")
-        agent = self._application.agent_trainer.init_agent()
+        agent = self._application.agent.init_agent()
 
         run_id = 0
         self._dm.store(agent, DATANAME.MODEL, run_id)

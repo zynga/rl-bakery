@@ -5,7 +5,7 @@ from rl_bakery.replay_buffer.tf_uniform_replay_buffer import TFUniformReplayBuff
 import math
 from typing import Optional
 from dataclasses import dataclass
-from rl_bakery.agent_trainer.abstract import AgentConfig, AgentTrainer
+from rl_bakery.agents.abstract import AgentConfig, Agent
 
 from datetime import timedelta, datetime
 
@@ -73,7 +73,7 @@ class DataSpec:
 @dataclass
 class AgentApplication:
     data_spec: DataSpec
-    agent_trainer: AgentTrainer
+    agent: Agent
     config: ApplicationConfig
     env: 'typing.Any'
 
@@ -97,7 +97,7 @@ class AgentApplication:
     # TODO switch this to an attribute of AgentApplication
     def init_replay_buffer(self):
         # TODO: see if there's a way to pass in an initialized agent
-        agent = self.agent_trainer.init_agent()
+        agent = self.agent.init_agent()
         return TFUniformReplayBuffer(agent.collect_data_spec)
 
 

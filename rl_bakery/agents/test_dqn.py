@@ -1,8 +1,8 @@
 import unittest
 import mock
 from rl_bakery.applications import agent_application
-from rl_bakery.agent_trainer.dqn import DDQNAgent, DQNAgent, QConfig
-from rl_bakery.agent_trainer.abstract import Optimizer
+from rl_bakery.agents.dqn import DDQNAgent, DQNAgent, QConfig
+from rl_bakery.agents.abstract import Optimizer
 from tf_agents import specs
 
 
@@ -19,8 +19,8 @@ class TestDQN(unittest.TestCase):
         self.assertEqual(conf.agent.optimizer.optimizer, Optimizer.Adam)
         self.assertEqual(conf.agent.fc_layer_params, [100, 150, 90])
 
-    @mock.patch('rl_bakery.agent_trainer.dqn.DqnAgent', autospec=True)
-    @mock.patch('rl_bakery.agent_trainer.abstract.QNetwork', autospec=True)
+    @mock.patch('rl_bakery.agents.dqn.DqnAgent', autospec=True)
+    @mock.patch('rl_bakery.agents.abstract.QNetwork', autospec=True)
     def test_standard_config_dqn(self, mock_qnetwork, mock_agent):
         params = ["agent.optimizer.learning_rate=0.01",
                   "policy.epsilon_greedy=0.01",
@@ -38,7 +38,6 @@ class TestDQN(unittest.TestCase):
                   "agent.fc_layer_params=[100, 150, 90]",
                   ]
 
-        obs_spec = "obs_spec"
         dataspec = agent_application.DataSpec(
             observation_spec=specs.ArraySpec([1,2,3], int),
             action_spec=specs.ArraySpec([1], float)
@@ -71,12 +70,11 @@ class TestDQN(unittest.TestCase):
         self.assertEqual(agent, mock_agent.return_value)
 
 
-    @mock.patch('rl_bakery.agent_trainer.dqn.DqnAgent', autospec=True)
-    @mock.patch('rl_bakery.agent_trainer.abstract.QNetwork', autospec=True)
+    @mock.patch('rl_bakery.agents.dqn.DqnAgent', autospec=True)
+    @mock.patch('rl_bakery.agents.abstract.QNetwork', autospec=True)
     def test_ignore_missing_config_dqn(self, mock_qnetwork, mock_agent):
         params = ["agent.fc_layer_params=[100, 150, 90]"]
 
-        obs_spec = "obs_spec"
         dataspec = agent_application.DataSpec(
             observation_spec=specs.ArraySpec([1,2,3], int),
             action_spec=specs.ArraySpec([1], float)
@@ -98,8 +96,8 @@ class TestDQN(unittest.TestCase):
         )
         self.assertEqual(agent, mock_agent.return_value)
 
-    @mock.patch('rl_bakery.agent_trainer.dqn.DdqnAgent', autospec=True)
-    @mock.patch('rl_bakery.agent_trainer.abstract.QNetwork', autospec=True)
+    @mock.patch('rl_bakery.agents.dqn.DdqnAgent', autospec=True)
+    @mock.patch('rl_bakery.agents.abstract.QNetwork', autospec=True)
     def test_standard_config_ddqn(self, mock_qnetwork, mock_agent):
         params = ["agent.optimizer.learning_rate=0.01",
                   "policy.epsilon_greedy=0.01",
@@ -117,7 +115,6 @@ class TestDQN(unittest.TestCase):
                   "agent.fc_layer_params=[100, 150, 90]",
                   ]
 
-        obs_spec = "obs_spec"
         dataspec = agent_application.DataSpec(
             observation_spec=specs.ArraySpec([1,2,3], int),
             action_spec=specs.ArraySpec([1], float)
@@ -150,12 +147,11 @@ class TestDQN(unittest.TestCase):
         self.assertEqual(agent, mock_agent.return_value)
 
 
-    @mock.patch('rl_bakery.agent_trainer.dqn.DdqnAgent', autospec=True)
-    @mock.patch('rl_bakery.agent_trainer.abstract.QNetwork', autospec=True)
+    @mock.patch('rl_bakery.agents.dqn.DdqnAgent', autospec=True)
+    @mock.patch('rl_bakery.agents.abstract.QNetwork', autospec=True)
     def test_ignore_missing_config_ddqn(self, mock_qnetwork, mock_agent):
         params = ["agent.fc_layer_params=[100, 150, 90]"]
 
-        obs_spec = "obs_spec"
         dataspec = agent_application.DataSpec(
             observation_spec=specs.ArraySpec([1,2,3], int),
             action_spec=specs.ArraySpec([1], float)

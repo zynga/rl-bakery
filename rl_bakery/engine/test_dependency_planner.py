@@ -1,6 +1,7 @@
 from unittest import TestCase
-from rl_bakery.engine.abstract_engine_config import MockEngineConfig
+from datetime import date, datetime, timedelta
 from rl_bakery.engine.dependency_planner import DependencyPlanner, OperationConfig
+from rl_bakery.engine.timing_data import TimingData
 
 
 class Operation1(object):
@@ -32,9 +33,13 @@ class TestDependencyPlanner(TestCase):
             "op_1": Operation1,
             "op_2": Operation2
         }
-        mock_rl_engine = MockEngineConfig()
+        today = datetime(date.today().year, date.today().month, date.today().day)
+        timing_data = TimingData(
+            start_dt=today,
+            training_interval=timedelta(days=1)
+        )
         available_data = []
-        planner = DependencyPlanner(operation_list, mock_rl_engine, available_data)
+        planner = DependencyPlanner(operation_list, timing_data, available_data)
 
         actual_plan = planner.plan(Operation1.output_dataname(), 2)
         expected_plan = [
@@ -47,9 +52,13 @@ class TestDependencyPlanner(TestCase):
             "op_1": Operation1,
             "op_2": Operation2
         }
-        mock_rl_engine = MockEngineConfig()
         available_data = [(Operation2.output_dataname(), 0), (Operation1.output_dataname(), 1)]
-        planner = DependencyPlanner(operation_list, mock_rl_engine, available_data)
+        today = datetime(date.today().year, date.today().month, date.today().day)
+        timing_data = TimingData(
+            start_dt=today,
+            training_interval=timedelta(days=1)
+        )
+        planner = DependencyPlanner(operation_list, timing_data, available_data)
 
         actual_plan = planner.plan(Operation2.output_dataname(), 1)
         expected_plan = [
@@ -62,9 +71,13 @@ class TestDependencyPlanner(TestCase):
             "op_1": Operation1,
             "op_2": Operation2
         }
-        mock_rl_engine = MockEngineConfig()
         available_data = [(Operation2.output_dataname(), 0)]
-        planner = DependencyPlanner(operation_list, mock_rl_engine, available_data)
+        today = datetime(date.today().year, date.today().month, date.today().day)
+        timing_data = TimingData(
+            start_dt=today,
+            training_interval=timedelta(days=1)
+        )
+        planner = DependencyPlanner(operation_list, timing_data, available_data)
 
         actual_plan = planner.plan(Operation2.output_dataname(), 2)
         expected_plan = [
@@ -80,9 +93,13 @@ class TestDependencyPlanner(TestCase):
             "op_1": Operation1,
             "op_2": Operation2
         }
-        mock_rl_engine = MockEngineConfig()
         available_data = [(Operation2.output_dataname(), 0), (Operation1.output_dataname(), 1)]
-        planner = DependencyPlanner(operation_list, mock_rl_engine, available_data)
+        today = datetime(date.today().year, date.today().month, date.today().day)
+        timing_data = TimingData(
+            start_dt=today,
+            training_interval=timedelta(days=1)
+        )
+        planner = DependencyPlanner(operation_list, timing_data, available_data)
 
         actual_plan = planner.plan(Operation2.output_dataname(), 2)
         expected_plan = [
@@ -97,9 +114,13 @@ class TestDependencyPlanner(TestCase):
             "op_1": Operation1,
             "op_2": Operation2
         }
-        mock_rl_engine = MockEngineConfig()
         available_data = []
-        planner = DependencyPlanner(operation_list, mock_rl_engine, available_data)
+        today = datetime(date.today().year, date.today().month, date.today().day)
+        timing_data = TimingData(
+            start_dt=today,
+            training_interval=timedelta(days=1)
+        )
+        planner = DependencyPlanner(operation_list, timing_data, available_data)
 
         with self.assertRaises(Exception):
             planner.plan(Operation2.output_dataname(), 2)

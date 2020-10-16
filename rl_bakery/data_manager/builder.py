@@ -13,7 +13,7 @@ def build_inmemory_data_manager(application):
     storage_path = application.config.project.dm_storage_path + '/agent'
 
     dm = DataManager()
-    dm.add_data(DATANAME.MODEL, TFAgentStorage(application.agent_trainer, storage_path, "agent.model"))
+    dm.add_data(DATANAME.MODEL, TFAgentStorage(application.agent, storage_path, "agent.model"))
     dm.add_data(DATANAME.RUN_CONTEXT, InMemoryStorage())
     dm.add_data(DATANAME.TIMESTEP, InMemoryStorage())
     return dm

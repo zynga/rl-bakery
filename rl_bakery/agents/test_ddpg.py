@@ -1,7 +1,7 @@
 
-from rl_bakery.agent_trainer.ddpg import DDPGAgent, DDPGConfig
+from rl_bakery.agents.ddpg import DDPGAgent, DDPGConfig
 from rl_bakery.applications import agent_application
-from rl_bakery.agent_trainer.abstract import Optimizer
+from rl_bakery.agents.abstract import Optimizer
 from tf_agents import specs
 import unittest
 import mock
@@ -9,9 +9,9 @@ import mock
 
 class TestDDPGAgent(unittest.TestCase):
 
-    @mock.patch('rl_bakery.agent_trainer.ddpg.DdpgAgent', autospec=True)
-    @mock.patch('rl_bakery.agent_trainer.ddpg.ActorNetwork', autospec=True)
-    @mock.patch('rl_bakery.agent_trainer.ddpg.CriticNetwork', autospec=True)
+    @mock.patch('rl_bakery.agents.ddpg.DdpgAgent', autospec=True)
+    @mock.patch('rl_bakery.agents.ddpg.ActorNetwork', autospec=True)
+    @mock.patch('rl_bakery.agents.ddpg.CriticNetwork', autospec=True)
     def test_default_config(self, mock_critic_network, mock_actor_network, mock_agent):
         params = ["agent.actor_fc_layer_params=[100,10]", "agent.observation_fc_layer_params=[1,2,3]",
                   "agent.action_fc_layer_params=[1,2,3,4]", "agent.joint_fc_layer_params=[5]"]
@@ -47,9 +47,9 @@ class TestDDPGAgent(unittest.TestCase):
         )
         self.assertEqual(agent, mock_agent.return_value)
 
-    @mock.patch('rl_bakery.agent_trainer.ddpg.DdpgAgent', autospec=True)
-    @mock.patch('rl_bakery.agent_trainer.ddpg.ActorNetwork', autospec=True)
-    @mock.patch('rl_bakery.agent_trainer.ddpg.CriticNetwork', autospec=True)
+    @mock.patch('rl_bakery.agents.ddpg.DdpgAgent', autospec=True)
+    @mock.patch('rl_bakery.agents.ddpg.ActorNetwork', autospec=True)
+    @mock.patch('rl_bakery.agents.ddpg.CriticNetwork', autospec=True)
     def test_default_config(self, mock_critic_network, mock_actor_network, mock_agent):
         params = ["agent.actor_fc_layer_params=[100,10]", "agent.observation_fc_layer_params=[1,2,3]",
                   "agent.action_fc_layer_params=[1,2,3,4]", "agent.joint_fc_layer_params=[5]",

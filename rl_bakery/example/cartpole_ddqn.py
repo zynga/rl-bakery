@@ -1,6 +1,6 @@
 from rl_bakery.applications import agent_application
 from rl_bakery.applications.simulation_runner import SimulationRunner, make_batch_tfenv
-from rl_bakery.agent_trainer.dqn import DDQNAgent, QConfig
+from rl_bakery.agents.dqn import DDQNAgent, QConfig
 from rl_bakery.data_manager.builder import build_inmemory_data_manager
 from rl_bakery.spark_utilities import get_spark_session
 
@@ -45,7 +45,7 @@ def make_runner(num_runs=4, num_eval_episodes=100, eval_interval=1):
 
     application = agent_application.AgentApplication(
         data_spec=data_spec,
-        agent_trainer=DDQNAgent(data_spec, conf),
+        agent=DDQNAgent(data_spec, conf),
         env=tfenv,
         config=conf,
         first_timestep_dt=first_timestep_dt,

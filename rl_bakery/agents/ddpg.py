@@ -1,4 +1,4 @@
-from rl_bakery.agent_trainer.abstract import TFAgentTrainer, AgentConfig, OptimizerConfig
+from rl_bakery.agents.abstract import TFAgent, AgentConfig, OptimizerConfig
 from tf_agents.agents.ddpg.ddpg_agent import DdpgAgent
 from tf_agents.agents.ddpg.actor_network import ActorNetwork
 from tf_agents.agents.ddpg.critic_network import CriticNetwork
@@ -31,7 +31,7 @@ class DDPGConfig(AgentConfig):
     name: Optional[str] = MISSING
 
 
-class DDPGAgent(TFAgentTrainer):
+class DDPGAgent(TFAgent):
 
     def __init__(self, data_spec, config):
         super().__init__(data_spec, config)

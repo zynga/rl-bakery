@@ -27,7 +27,7 @@ class AgentConfig:
     pass
 
 
-class AgentTrainer(metaclass=abc.ABCMeta):
+class Agent(metaclass=abc.ABCMeta):
     """
     This set ups an Agent to be trained.
     """
@@ -41,7 +41,7 @@ class AgentTrainer(metaclass=abc.ABCMeta):
         pass
 
 
-class TFAgentTrainer(AgentTrainer):
+class TFAgent(Agent):
 
     def __init__(self, data_spec, config):
         super().__init__(data_spec, config)
@@ -74,7 +74,7 @@ class TFAgentTrainer(AgentTrainer):
                 args[arg] = self._config['agent'][arg]
 
 
-class QAgent(TFAgentTrainer):
+class QAgent(TFAgent):
 
     def __init__(self, data_spec, config):
         super().__init__(data_spec, config)
