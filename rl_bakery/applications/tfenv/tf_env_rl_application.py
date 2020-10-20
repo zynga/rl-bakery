@@ -1,6 +1,5 @@
 from rl_bakery.applications.tf_rl_application import TFRLApplication
 from rl_bakery.data_manager.data_manager import DATANAME
-from rl_bakery.spark_utilities import get_spark_session
 from tf_agents.specs import tensor_spec
 from tf_agents.trajectories import time_step as ts
 from tf_agents.policies.epsilon_greedy_policy import EpsilonGreedyPolicy
@@ -8,14 +7,19 @@ import tensorflow as tf
 
 
 class TFEnvRLApplication(TFRLApplication):
-    def __init__(self, envs, training_config, steps_num_per_run, engine_start_dt, engine_training_interval,
-                 num_partitions=10):
+    # TODO This legacy class should be refactored to read all configuration values from an ApplicationConfig and follow
+    # a more generic pattern for retrieving trajectories
+
+    def __init__(self, envs, spark_session, training_config, steps_num_per_run, engine_start_dt,
+                 engine_training_interval, num_partitions=10):
         """
         This adapter allows which allows the batching of multiple simulators in a single application in addition to
         control the number of interaction between the agent and the environment within 1 training run.
 
         Params:
             envs (list): list of gym simulated environments
+            spark_session: A Spark session, which is used to build and join timesteps
+            training_config: A dictionary
             steps_num_per_run (int): number of interactions between the agent and the simulator within 1 training run
             agent_config: TBD
             engine_start_dt (datetime): The engine start datetime. This is needed by buildtimestep() to compute
@@ -29,7 +33,7 @@ class TFEnvRLApplication(TFRLApplication):
             raise ValueError("Envs must be list of at least one TFAgent environments.")
 
         self._envs = envs
-        self._spark = get_spark_session()
+        self._spark = spark_session
         self._steps_num_per_run = steps_num_per_run
         self._num_partitions = num_partitions
 
@@ -119,13 +123,16 @@ class TFEnvRLApplication(TFRLApplication):
             eps_final = self._training_config.get("eps_final", 0.1)
             eps_steps = self._training_config.get("eps_steps", 1)
 
+            print("eps_start: %s eps_final: %s eps_steps: %s" % (eps_start, eps_final, eps_steps))
             if eps_steps > self._step_counter:
                 epsilon = eps_final + (eps_start - eps_final) * (eps_steps - self._step_counter) / eps_steps
             else:
                 epsilon = eps_final
+
+            # TODO avoid writing to private attribute
             agent_policy._epsilon = epsilon
 
-            print("Collection Epsilon: %s" % str(agent_policy._epsilon))
+            print("Collection Epsilon: %s" % str(epsilon))
             tf.compat.v2.summary.scalar(name="env_metrics/exploration_rate", data=epsilon)
 
         return agent_policy

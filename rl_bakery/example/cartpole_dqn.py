@@ -1,10 +1,11 @@
 from rl_bakery.applications import agent_application
 from rl_bakery.applications.simulation_runner import SimulationRunner, make_batch_tfenv
-from rl_bakery.agents.dqn import DDQNAgent, QConfig
+from rl_bakery.agents.dqn import DQNAgent, QConfig
 from rl_bakery.data_manager.builder import build_inmemory_data_manager
 from rl_bakery.spark_utilities import get_spark_session
 
 from tf_agents.environments import suite_gym, tf_py_environment
+
 
 import logging
 import time
@@ -12,12 +13,8 @@ from datetime import timedelta, datetime
 
 from omegaconf import OmegaConf
 
-
-
 def make_env():
     return tf_py_environment.TFPyEnvironment(suite_gym.load('CartPole-v0'))
-
-
 
 def make_runner(num_runs=4, num_eval_episodes=100, eval_interval=1):
     params = ["agent.optimizer.learning_rate=0.01",
@@ -45,7 +42,7 @@ def make_runner(num_runs=4, num_eval_episodes=100, eval_interval=1):
 
     application = agent_application.AgentApplication(
         data_spec=data_spec,
-        agent=DDQNAgent(data_spec, conf),
+        agent=DQNAgent(data_spec, conf),
         env=tfenv,
         config=conf,
         first_timestep_dt=first_timestep_dt,

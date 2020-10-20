@@ -5,10 +5,9 @@ class OperationFactory:
     """
     This is a factory for building the different type of operations that can be performed by the pipeline
     """
-    def __init__(self, available_operator_map, rl_app, engine_config, dm):
+    def __init__(self, available_operator_map, application, dm):
         self._available_operator_map = available_operator_map
-        self._rl_app = rl_app
-        self._engine_config = engine_config
+        self._application = application
         self._dm = dm
 
     def _get_operation_class(self, operation_name):
@@ -19,4 +18,4 @@ class OperationFactory:
 
     def build(self, operation_name):
         op = self._get_operation_class(operation_name)
-        return op(self._rl_app, self._engine_config, self._dm)
+        return op(self._application, self._dm)

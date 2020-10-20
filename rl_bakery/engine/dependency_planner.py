@@ -1,4 +1,6 @@
 from rl_bakery.operation.operation_config import OperationConfig
+from dataclasses import dataclass
+from datetime import datetime, timedelta
 import logging
 
 logger = logging.getLogger(__name__)
@@ -12,13 +14,13 @@ class DependencyPlanner:
     # take in a graph between data dependencies and operator-data mapping
     # TODO: It makes more sense not setting available_data as an attribute but pass it when plan() is called since
     # available data changes very often
-    def __init__(self, operations_map, engine_config, available_data=None):
+    def __init__(self, operations_map, timing_data, available_data=None):
         """
         :param operations: A List of Operation classes that the plan can execute
+        :param timing_data: Information about timing for the application
         :param available_data: A List of (DATANAME, timestep) tuples of data already available
         """
 
-        self._engine_config = engine_config
         # dict data to ops to execute after data is complete
         # todo: this can be created in 1 line
         self._data_to_operation = {}
@@ -31,6 +33,7 @@ class DependencyPlanner:
                 self._data_to_operation[d] = o
 
         self._available_data = available_data
+        self._timing_data = timing_data
 
     # TODO: add support for operations that do not output data like DeployOperation.
     def plan(self, data_name, run_id):
@@ -70,7 +73,7 @@ class DependencyPlanner:
         return ops_and_timesteps
 
     def _get_op_dependencies(self, op, run_id):
-        values = op.data_dependencies(self._engine_config).values()
+        values = op.data_dependencies(self._timing_data).values()
         return [(dep_data_name, offset + run_id) for (dep_data_name, offset) in values]
 
     def _get_op_to_downstream_data(self, ops):
