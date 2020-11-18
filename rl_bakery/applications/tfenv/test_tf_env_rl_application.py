@@ -1,8 +1,9 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from unittest import TestCase
 from tf_agents.environments import tf_py_environment, suite_gym
 from rl_bakery.applications.tfenv.indexed_tf_env import IndexedTFEnv
 from rl_bakery.applications.tfenv.tf_env_rl_application import TFEnvRLApplication
+from rl_bakery.spark_utilities import get_spark_session
 from unittest.mock import patch
 
 
@@ -26,5 +27,8 @@ class TestRLEnvRLApplication(TestCase):
 
         steps_num_per_run = 3
 
-        app = TFEnvRLApplication(envs, training_config, steps_num_per_run, datetime.now(), 2)
+        spark_session = get_spark_session()
+        app = TFEnvRLApplication(envs, spark_session, training_config, steps_num_per_run,
+                                 engine_start_dt=datetime.now(), engine_training_interval=timedelta(days=1),
+                                 num_partitions=2)
         self.assertListEqual(app.obs_cols, ['ob_0', 'ob_1', 'ob_2', 'ob_3'])
