@@ -53,6 +53,8 @@ class DQNAgent(QAgent):
         args['action_spec'] = self._data_spec.action_spec
         args['epsilon_greedy'] = self._config.policy.epsilon_greedy
         args['n_step_update'] = self._config.trajectory.n_step
+        args['debug_summaries'] = True
+        args['summarize_grads_and_vars'] = True
         self._add_agent_args(args)
         return args
 

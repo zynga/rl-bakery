@@ -5,7 +5,7 @@ class DQNTest():
     """ DDQN Test Class """
     def test_dqn_cart_pole(self):
         """ Test Average Rewards of Cartpole using the DQN agent (average over last 3 runs) """
-        cartpole = make_runner(num_runs=6)
+        cartpole = make_runner(num_runs=10)
         eval_rewards = cartpole.run()
         # evaluate over the last 3 runs
         eval_runs = 3

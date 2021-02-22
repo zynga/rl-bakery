@@ -17,6 +17,8 @@ def make_env():
     return tf_py_environment.TFPyEnvironment(suite_gym.load('CartPole-v0'))
 
 def make_runner(num_runs=4, num_eval_episodes=100, eval_interval=1):
+
+    # get run config
     params = ["agent.optimizer.learning_rate=0.01",
               "training.num_iterations=10000",
               "policy.eps_start=1.0",
@@ -30,11 +32,13 @@ def make_runner(num_runs=4, num_eval_episodes=100, eval_interval=1):
     conf = agent_application.make_config(QConfig(), params)
     print(OmegaConf.to_yaml(conf))
 
+    # create batch of cartpole environments
     first_timestep_dt = datetime(year=2019, month=8, day=7, hour=10)
     training_interval = timedelta(days=1)
     spark = get_spark_session()
     tfenv = make_batch_tfenv(make_env, conf, first_timestep_dt, training_interval, spark)
 
+    # finalize RL application
     data_spec = agent_application.DataSpec(
         action_spec=tfenv.action_spec,
         observation_spec=tfenv.observation_spec
@@ -49,10 +53,15 @@ def make_runner(num_runs=4, num_eval_episodes=100, eval_interval=1):
         training_interval=training_interval
     )
 
+    # create the data manager
     dm = build_inmemory_data_manager(application)
     tfenv.set_dm(dm)
-    return SimulationRunner(application=application, make_eval_env=make_env, dm=dm,
-                            num_runs=num_runs, num_eval_episodes=num_eval_episodes, eval_interval=eval_interval)
+
+    # create simulator runner
+    sim_runner = SimulationRunner(application=application, make_eval_env=make_env, dm=dm,
+                                  num_runs=num_runs, num_eval_episodes=num_eval_episodes,
+                                  eval_interval=eval_interval)
+    return sim_runner
 
 
 if __name__ == "__main__":

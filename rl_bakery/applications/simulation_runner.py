@@ -56,7 +56,6 @@ class SimulationRunner(object):
 
     def _evaluate_agent(self, run_id, num_eval_episodes):
         rl_agent = self._dm.get(DATANAME.MODEL, run_id)
-
         trained_policy = rl_agent.policy
 
         eval_env = self._make_env()
