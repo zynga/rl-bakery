@@ -55,7 +55,7 @@ This assumes you have Python 3.6+ installed.
 1. Create a virtual env: `python3 -m venv venv`
 1. `source venv/bin/activate`
 1. Install packages: `pip3 install -r requirements.txt`
-1. You can run an example app with this command `python -m rl_bakery.example.cartpole`
+1. You can run an example app with this command `python -m rl_bakery.example.cartpole_dqn`
 
 To run this on a Mac, you must install java to run locally with pyspark.  https://www.java.com/en/download/mac_download.jsp
 Add 'export JAVA_HOME=/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home' to your .bash_profile

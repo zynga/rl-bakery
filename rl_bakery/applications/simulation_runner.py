@@ -95,7 +95,7 @@ def make_batch_tfenv(make_env, config, start_dt, training_interval, spark_sessio
     :param make_env: A function that returns an Environment
     :param config: An ApplicationConfig
     :param start_dt: A datetime being used to simulate the first action
-    :param training_interval: A datetime indicating the lag between when an observation is generated and when it can
+    :param training_interval: A timedelta indicating the lag between when an observation is generated and when it can
                            be used for training. This simulates real world environments where there's a delay between
                            data collection and Agent updates.
     :param spark_session: A Spark session
