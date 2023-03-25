@@ -2,7 +2,7 @@ faker
 pyyaml
 tf-agents==0.3.0
 tensorflow-estimator==2.0.0
-tensorflow==2.0.0
+tensorflow==2.11.1
 tensorflow-probability==0.8.0
 pyspark==2.4.1
 pandas==0.24.2
