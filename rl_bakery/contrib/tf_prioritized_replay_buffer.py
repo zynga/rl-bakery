@@ -154,7 +154,7 @@ class TfPrioritizedReplayBuffer(TFUniformReplayBuffer):
 
     def _sample_ids(self, sample_size, beta):
         """
-        select the indices of the experience to pull from the prioritize replay buffer in addition to compute it's
+        select the indices of the experience to pull from the prioritize replay buffer in addition to compute its
         importance sampling weight.
 
         Params:
@@ -170,7 +170,7 @@ class TfPrioritizedReplayBuffer(TFUniformReplayBuffer):
         # select an index stochastically
         idx = np.random.choice(len(probabilities), sample_size, p=probabilities)
 
-        # compute important sampling weights of the selected indices
+        # compute importance sampling weights of the selected indices
         selected_probabilities = probabilities[idx]
         importance_sampling_weights = (self._capacity_value * selected_probabilities) ** (-beta)
         importance_sampling_weights /= importance_sampling_weights.max()

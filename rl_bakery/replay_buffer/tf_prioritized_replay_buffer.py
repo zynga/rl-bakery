@@ -78,7 +78,7 @@ class TFPrioritizedReplayBuffer(TFReplayBufferAbstract):
 
     def post_process(self, traj_meta, loss_info, curr_iter):
         indices = traj_meta.ids.numpy()
-        # get the loss of every experience using during the training. it is stored in DQNLossInfo
+        # get the loss of every experience used during the training. it is stored in DQNLossInfo
         td_loss = loss_info[1].td_loss.numpy()
 
         # make sure the td loss array has the same size as the batch
@@ -141,7 +141,7 @@ class TrainingMetricTracker(object):
             log_to_tensorboard("replay_buffer/weights", self._weights_summary)
 
 
-# TODO: we could create an logging interface that make logging generic
+# TODO: we could create a logging interface that make logging generic
 def log_to_tensorboard(metric_name, data):
     if type(data) is list:
         tf.compat.v2.summary.histogram(name=metric_name, data=data)

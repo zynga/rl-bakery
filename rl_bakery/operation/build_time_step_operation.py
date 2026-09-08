@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 class BuildTimestepOperation(BaseOperation):
     """
     This operator retrieves new Timesteps based on the interactions between the agent and the environment since
-    it's last run. By performing this incrementally, only new timesteps are needed.
+    its last run. By performing this incrementally, only new timesteps are needed.
 
     The result is a parquet file that contains several timesteps and will be persisted in S3.
 

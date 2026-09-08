@@ -13,7 +13,7 @@ class TFEnvRLApplication(TFRLApplication):
     def __init__(self, envs, spark_session, training_config, steps_num_per_run, engine_start_dt,
                  engine_training_interval, num_partitions=10):
         """
-        This adapter allows which allows the batching of multiple simulators in a single application in addition to
+        This adapter allows the batching of multiple simulators in a single application in addition to
         control the number of interaction between the agent and the environment within 1 training run.
 
         Params:

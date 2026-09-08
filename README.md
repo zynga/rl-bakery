@@ -11,9 +11,9 @@ Patrick Halina, Mehdi Ben Ayed, Peng Zhong, Curren Pangler
 ### How is RL-Bakery related to other libraries?
 RL-Bakery is built on top of [TF-Agents](https://github.com/tensorflow/agents/tree/master/tf_agents) as an implementation of the RL Algorithms. There's a lot of other open source libraries that implement RL Algorithms, like [Keras RL](https://github.com/keras-rl/keras-rl), [Dopamine](https://github.com/google/dopamine) or [SEED](https://github.com/google-research/seed_rl). In the future, RL-Bakery could make it easier to support other implementations.
 
-We use [OpenAI Gym](https://gym.openai.com/) to test the library with canonical simulated environments, like [Cartpole](rl_bakery/example/cartpole.py). This isn't used for our production applications.
+We use [OpenAI Gym](https://gym.openai.com/) to test the library with canonical simulated environments, like [Cartpole](rl_bakery/example/cartpole_dqn.py). This isn't used for our production applications.
 
-The library operates at the same level as [ReAgent](https://github.com/facebookresearch/ReAgent) and [Ray RLlib](https://docs.ray.io/en/latest/rllib.html). The difference is that RL-Bakery does not implement RL algorithms like PPO or DQN itself, it uses off the shelf implementations from open source libraries. RL-Bakery simply manages the data over time and at scale, then presents the historic data to other libraries that have implementations (we currently only support TF-Agents.) RL-Bakery is also runs seamlessly on existing Spark clusters, without the need to reconfigure Spark.
+The library operates at the same level as [ReAgent](https://github.com/facebookresearch/ReAgent) and [Ray RLlib](https://docs.ray.io/en/latest/rllib.html). The difference is that RL-Bakery does not implement RL algorithms like PPO or DQN itself, it uses off the shelf implementations from open source libraries. RL-Bakery simply manages the data over time and at scale, then presents the historic data to other libraries that have implementations (we currently only support TF-Agents.) RL-Bakery also runs seamlessly on existing Spark clusters, without the need to reconfigure Spark.
 
 ### What other technologies does this library require?
 RL-Bakery uses Spark to manage and transform data, so a Spark cluster (2.4+) is required. We also use Tensorflow 2.0.
@@ -35,7 +35,7 @@ A trained RL Agent is simply a trained Tensorflow model. It can be deployed to a
 ## Usage
 New applications are created by inheriting from the RLApplication class and implementing a few functions. For example, specifying the Agent algorithm to use and how to get data for a specific time period. RL Bakery can then execute the application to construct (State, Action, Reward, Next State) trajectories to train an RL Agent. A trained Agent is basically a deep learning model, which can  be served in real time or used to generate batch values for a population of environments.
 
-See [rl_bakery/example/cartpole.py](rl_bakery/example/cartpole.py) for an example with the OpenAI cartpole environment. While that example uses an [OpenAI Gym](https://gym.openai.com/) environment, typical applications for RL Bakery will get state from a warehouse.
+See [rl_bakery/example/cartpole_dqn.py](rl_bakery/example/cartpole_dqn.py) for an example with the OpenAI cartpole environment. While that example uses an [OpenAI Gym](https://gym.openai.com/) environment, typical applications for RL Bakery will get state from a warehouse.
 
 
 ## Implementation Overview
@@ -55,7 +55,7 @@ This assumes you have Python 3.6+ installed.
 1. Create a virtual env: `python3 -m venv venv`
 1. `source venv/bin/activate`
 1. Install packages: `pip3 install -r requirements.txt`
-1. You can run an example app with this command `python -m rl_bakery.example.cartpole`
+1. You can run an example app with this command `python -m rl_bakery.example.cartpole_dqn`
 
 To run this on a Mac, you must install java to run locally with pyspark.  https://www.java.com/en/download/mac_download.jsp
 Add 'export JAVA_HOME=/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home' to your .bash_profile
