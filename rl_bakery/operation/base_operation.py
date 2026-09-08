@@ -37,7 +37,7 @@ class BaseOperation(object):
     @classmethod
     def tracked_run_state(cls):
         """Returns a dict containing the metrics that the operator needs to track over different runs with
-        it's value in the initial state"""
+        its value in the initial state"""
         return {}
 
     def _data_manager(self):
@@ -159,7 +159,7 @@ class BaseOperation(object):
 
         return out, exception_list
 
-    # TODO: we could create an logging interface that make logging generic
+    # TODO: we could create a logging interface that make logging generic
     @staticmethod
     def log_to_tensorboard(metric_name, data):
         if type(data) is list:

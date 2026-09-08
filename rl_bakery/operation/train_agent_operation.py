@@ -45,7 +45,7 @@ class TrainAgentOperation(BaseOperation):
     @classmethod
     def tracked_run_state(cls):
         """Returns a dict containing the metrics that the operator needs to track over different runs with
-        it's value in the initial state"""
+        its value in the initial state"""
         return {TrainAgentOperation.TRAINING_GLOBAL_STEP: 0}
 
     def __init__(self, application, dm):
@@ -83,7 +83,7 @@ class TrainAgentOperation(BaseOperation):
         for _, ts_df in previous_timestep_dict.items():
             timestep_df = timestep_df.union(ts_df)
 
-        # TODO: move this order and trajectory building to it's own operation so that train can
+        # TODO: move this order and trajectory building to its own operation so that train can
         # run on gpu while trajectory building run on spark
         timestep_df = timestep_df.orderBy(*self._application.env.env_id_cols, self._application.env.ts_id_col)
         traj_dict = self._trajectory_builder.run(timestep_df.collect())

@@ -381,7 +381,7 @@ class PyPrioritizedReplayBufferTest(parameterized.TestCase, tf.test.TestCase):
         self._create_replay_buffer(capacity)
 
         # fill replay buffer with 20 experiences which observation is between 0 and 19. only values from 10 to 19 will
-        # remain in the buffer because it's capacity is 10
+        # remain in the buffer because its capacity is 10
         num_experiences = 20
         self._fill_replay_buffer(num_experiences)
 

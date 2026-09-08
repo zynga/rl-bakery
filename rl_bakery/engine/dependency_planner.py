@@ -26,7 +26,7 @@ class DependencyPlanner:
         self._data_to_operation = {}
         for _, o in operations_map.items():
             d = o.output_dataname()
-            # TODO: Move this outside of the this loop. Place it inside of a planner validation step
+            # TODO: Move this outside of this loop. Place it inside of a planner validation step
             if d:
                 if d in self._data_to_operation:
                     raise Exception("Duplicate operation found to generate %s" % d)

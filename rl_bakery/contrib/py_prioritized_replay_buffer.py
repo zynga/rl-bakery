@@ -95,7 +95,7 @@ class PyPrioritizedReplayBuffer(ReplayBuffer):
 
         item = nest_utils.unbatch_nested_array(items)
 
-        # get maximum priority in the replay buffer or set it's initial value is 1
+        # get maximum priority in the replay buffer or set its initial value is 1
         max_priority = self._prioritized_buffer_priorities.max() if self._np_state.size > 0 else 1.0
 
         with self._lock:
@@ -179,11 +179,11 @@ class PyPrioritizedReplayBuffer(ReplayBuffer):
 
     def select_prioritized_experience(self, prioritized_buffer_beta):
         """
-        select the index of the experience to pull from the prioritize replay buffer in addition to compute it's
+        select the index of the experience to pull from the prioritize replay buffer in addition to compute its
         importance sampling weight.
 
         Params:
-            prioritized_buffer_beta: This a factor to which the Importance Sampling is present
+            prioritized_buffer_beta: This is a factor to which the Importance Sampling is present
         """
         # extract priorities
         if self._np_state.size == self._prioritized_buffer_capacity:
@@ -219,7 +219,7 @@ class PyPrioritizedReplayBuffer(ReplayBuffer):
 
         Params:
             sample_batch_size: size of the batches it will return
-            prioritized_buffer_beta: This a factor to which the Importance Sampling is present
+            prioritized_buffer_beta: This is a factor to which the Importance Sampling is present
             num_steps (int): number of steps to load. Only 1 is supported at the moment
             num_parallel_calls: number of calls to perform in parallel.
 

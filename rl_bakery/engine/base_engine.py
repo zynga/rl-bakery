@@ -82,8 +82,8 @@ class BaseEngine(object):
         """
         Initialize a dictionary which will hold the run state of the engine historically
         """
-        # TODO (idea): set an interface to use the run_context and abstract away it's implementation of the run
-        # so that it can be customized (where it is stored and what is it composed of.
+        # TODO (idea): set an interface to use the run_context and abstract away its implementation of the run
+        # so that it can be customized (where it is stored and what it is composed of.
         run_context_dict = {"available_data": []}
 
         # add states tracked by the available operators

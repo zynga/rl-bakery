@@ -44,7 +44,7 @@ def build_tf_trajectory(traj_dict, data_spec_dict):
 
     Params:
         traj_dict: dict containing trajectory data stored as numpy data types
-        data_spec_dict: a dict mapping every trajectory data to it's expected TensorSpec
+        data_spec_dict: a dict mapping every trajectory data to its expected TensorSpec
     Return:
         tf.trajectory
         trajectory spec
@@ -61,8 +61,8 @@ def build_tf_trajectory(traj_dict, data_spec_dict):
 
 def convert_data_to_tensor(data, data_spec):
     """
-    convert a python data object to a tensor. In case the object is a dict, it's content is converted instead.
-    The data spec contains the tensorflow type to which the data will be converted. Both data data data_spec
+    convert a python data object to a tensor. In case the object is a dict, its content is converted instead.
+    The data spec contains the tensorflow type to which the data will be converted. Both data and data_spec
     have the same structure
 
     Params:

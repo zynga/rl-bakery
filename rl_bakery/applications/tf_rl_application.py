@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 class TFRLApplication(object):
     """
     This is an abstract class that needs to be implemented when creating custom rl pipelines. It will contain a list
-    of static methods that needs to be implemented to perform tasks that are custom the use case.
+    of static methods that needs to be implemented to perform tasks that are custom to the use case.
     Unlike class AbstractRLApplication where build observations and reward are required, this class needs build
     timesteps function to be implemented
     """
